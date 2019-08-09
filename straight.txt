@@ -1,0 +1,82 @@
+#include <Wire.h>
+
+// モータ
+const int motorA = 36;
+const int motorB = 37;
+const int PWM_motAB = 6;
+const int motorC = 39;
+const int motorD = 38;
+const int PWM_motCD = 5; 
+const int ledA = 13;
+//サーボ
+const int servo1 = 13; //茶
+//　フォトトランジスタ
+const int sensorA = 46;  //外側左
+const int sensorB = 47;  //内側左
+const int sensorC = 48;  //内側右
+const int sensorD = 49;  //外側右
+//エンコーダ
+const int ENCA = 2;
+const int ENCB = 3;
+const int ENCC = 18;
+const int ENCD = 19;
+//PSDセンサ
+const int PSD1 = 0;
+//　センサから読み取った値（analog）
+int valA = 0;
+int valB = 0;
+int valC = 0;
+int valD = 0;
+int valPSD1 = 0;
+int valPSD2 = 0;
+int turn = 0;
+int i = 0;
+
+
+void setup(){
+  pinMode(motorA,OUTPUT); 
+  pinMode(motorB,OUTPUT); 
+  pinMode(motorC,OUTPUT); 
+  pinMode(motorD,OUTPUT); 
+  pinMode(PWM_motAB,OUTPUT); 
+  pinMode(PWM_motCD,OUTPUT); 
+  pinMode(ENCA,INPUT_PULLUP);
+  pinMode(ENCB,INPUT_PULLUP);
+  pinMode(ENCC,INPUT_PULLUP);
+  pinMode(ENCD,INPUT_PULLUP);
+  
+  Serial.begin(9600); 
+
+ 
+}
+
+void loop(){
+  
+  turn = ++i;
+  valA = digitalRead(sensorA);
+  valB = digitalRead(sensorB);
+  valC = digitalRead(sensorC);
+  valD = digitalRead(sensorD);
+  valPSD1 = analogRead(PSD1);
+  
+  Serial.print(turn);
+  Serial.print("  ");
+  Serial.print(valA);
+  Serial.print("  ");
+  Serial.print(valB);
+  Serial.print("  ");
+  Serial.print(valC);
+  Serial.print("  ");
+  Serial.print(valD);
+  Serial.print("  ");
+  Serial.println(valPSD1);
+  
+  
+    digitalWrite(motorA,HIGH);
+    digitalWrite(motorB,LOW);
+    analogWrite(PWM_motAB,130); 
+    digitalWrite(motorC,HIGH);
+    digitalWrite(motorD,LOW);
+    analogWrite(PWM_motCD,130);
+    Serial.println("通常直進");
+  }
